@@ -1,0 +1,32 @@
+message_type = {
+	key = "STATION_UNDER_ATTACK"
+	icon = "GFX_station_under_attack"
+	icon_frame = 2
+	name = "STATION_UNDER_ATTACK_TITLE"
+	sound = "event_yellow_alert"
+	#ping = "ping_notification_red"
+	ping = "arrow_notification_red"
+	auto_opens = others # all = Popup Window EVERY notification | others = seemingly never | yes = Popup Window only once| none = Popup Either EVERY notification or nothinf at all
+}
+
+message_type = {
+	key = "SYSTEM_OWNERSHIP_LOST"
+	icon = "GFX_system_lost"
+	icon_frame = 1
+	name = "SYSTEM_OWNERSHIP_LOST_TITLE"
+	sound = "notification"
+	#ping = "ping_notification_red"
+	ping = "arrow_notification_red"
+	auto_opens = others # all = Popup Window EVERY notification | others = seemingly never | yes = Popup Window only once| none = Popup Either EVERY notification or nothinf at all
+}
+
+message_type = {
+	key = "EHTER_DRAKE_ENCOUNTERED"
+	icon = "GFX_ether_drake_encountered"
+	icon_frame = 1
+	name = "ETHER_DRAKE_ENCOUNTERED_TITLE"
+	sound = "notification"
+	#ping = "ping_notification_red"
+	ping = "arrow_notification_red"
+	auto_opens = others # all = Popup Window EVERY notification | others = seemingly never | yes = Popup Window only once| none = Popup Either EVERY notification or nothinf at all
+}

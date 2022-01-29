@@ -1,0 +1,25 @@
+﻿l_english:
+####################################
+# Notifications
+####################################
+
+####################################
+# Colours
+# B - Blue
+# E - Cyan
+# G - Green
+# H - Orangy-look
+# L - Grey (very slightly brown)
+# R - Red
+# S - Orangy-look (again)
+# Y - Yellow
+####################################
+
+STATION_UNDER_ATTACK_TITLE:0 "Station Under Attack"
+STATION_UNDER_ATTACK_MESSAGE:0 "$STATION|Y$ under attack by $ATTACKER|R$ with $ATTACKER_FLEET|H$!"
+
+SYSTEM_OWNERSHIP_LOST_TITLE:0 "System Lost"
+SYSTEM_OWNERSHIP_LOST_MESSAGE:0 "System $SYSTEM_LOST|Y$ lost to $ATTACKER|R$!"
+
+ETHER_DRAKE_ENCOUNTERED_TITLE:0 "Ether Drake Sighted"
+ETHER_DRAKE_ENCOUNTERED_MESSAGE:0 "The fleet $EHTER_DRAKE_ENCOUNTER_FLEET|Y$ has run into an Ether Drake in $ETHER_DRAKE_ENCOUNTER_SYSTEM|G$!"

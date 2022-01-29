@@ -1,0 +1,37 @@
+# This = Attacked Fleet
+# From = Aggressor Fleet
+# FromFrom = Additional Attacked Fleet (if joining ongoing combat)
+# FromFromFrom = Additional Attacked Fleet (if joining ongoing combat)
+on_fleet_combat_joined_defender = {
+	events = {
+		expanded_notifs.1
+	}
+}
+
+# From = system
+# FromFrom = country (new owner)
+# This = country (previous owner)
+on_system_lost = {
+	events = {
+		expanded_notifs.2
+	}
+}
+
+# THIS = System: system being occupied
+# FROM = Country: Conqueror of the system
+# FROMFROM = Country: Original owner of the system
+on_system_occupied = {
+	events = {
+		expanded_notifs.3
+	}
+}
+
+# A fleet has entered a system | See also: on_fleet_auto_move_arrival
+# Scope = Fleet
+# From = System
+on_entering_system_fleet = {
+	events = {
+		# leviathans.610 is event where Ether Drake Dragon is encountered. Let's check if country has dragon_encounter flag and if not, show notification
+		expanded_notifs.4
+	}
+}

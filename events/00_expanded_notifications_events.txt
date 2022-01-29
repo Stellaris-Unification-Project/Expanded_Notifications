@@ -1,0 +1,202 @@
+#########################################
+#
+# EVENTS
+#
+#########################################
+
+namespace = expanded_notifs
+
+# Sets global flag that mod is installed
+country_event = {
+	id = expanded_notifs.0
+	hide_window = yes
+	fire_only_once = yes
+	trigger = {
+		NOT = {
+			has_global_flag = expanded_notifications_installed
+		}
+	}
+	immediate = {
+		set_global_flag = expanded_notifications_installed
+	}
+}
+
+# Called by on_fleet_combat_joined_defender
+# This = Attacked Fleet
+# From = Aggressor Fleet
+# FromFrom = Additional Attacked Fleet (if joining ongoing combat)
+# FromFromFrom = Additional Attacked Fleet (if joining ongoing combat)
+fleet_event = {
+	id = expanded_notifs.1
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		is_owned_by = root.owner # Is owned by Us
+		is_ship_class = shipclass_starbase #AND is of type Starbase/Station - Includes Juggernauts.
+		
+		# But it is not a Juggernaut
+		NOT = {
+			is_ship_size = juggernaut # Flags to not send when it is a Juggernaut class.
+		}
+		
+		# And
+		from = { # Enemy Fleet
+			OR = { # Is either
+				is_ship_class = shipclass_military # Normal Military
+				is_ship_class = shipclass_military_special # Or Colossi
+			}
+		}
+	}
+
+	immediate = {
+		# print_scope_effect = yes
+		
+		# Let's compare variables with scopes. We need to export
+		# Let's scope from Attacker Fleet
+		from = { # From = Attacker Fleet
+			export_trigger_value_to_variable = {
+				trigger = fleet_power # value associated from "from"
+				variable = r0_station_event_attacker_fleet_power # var name
+			}
+		}
+
+		# This = Attacked Fleet
+		export_trigger_value_to_variable = {
+			trigger = fleet_power # value associated from "this"
+			variable = r0_station_event_attacked_fleet_power # var name
+		}
+		
+		if = {
+			limit = {
+				check_variable = {
+					# If fleet power value of attacker > fleet value of owner...
+					which = r0_station_event_attacked_fleet_power
+                    value <= from.r0_station_event_attacker_fleet_power
+				}
+			}
+			create_message = {
+				type = STATION_UNDER_ATTACK
+				localization = STATION_UNDER_ATTACK_MESSAGE
+				days = 10
+				target = this
+				variable = {
+					type = name
+					localization = STATION
+					scope = starbase
+				}
+				variable = {
+					type = name
+					localization = ATTACKER
+					scope = from.owner
+				}
+				variable = {
+					type = name
+					localization = ATTACKER_FLEET
+					scope = from
+				}
+			}
+		}
+	}
+}
+
+# Called by on_system_lost
+# From = system
+# FromFrom = country (new owner)
+# This = country (previous owner)
+# TODO: WHEN SYSTEM LOST BUT PLANET IS FROM OWNER, WON'T TRIGGER. FIND A SOLUTION
+country_event = {
+	id = expanded_notifs.2
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		create_message = {
+			type = SYSTEM_OWNERSHIP_LOST
+			localization = SYSTEM_OWNERSHIP_LOST_MESSAGE
+			days = 10
+			target = from
+			variable = {
+				type = name
+				localization = SYSTEM_LOST
+				scope = from
+			}
+			variable = {
+				type = name
+				localization = ATTACKER
+				scope = fromfrom
+			}
+		}
+	}
+}
+
+# THIS = System: system being occupied
+# FROM = Country: Conqueror of the system
+# FROMFROM = Country: Original owner of the system
+system_event = {
+	id = expanded_notifs.3
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		create_message = {
+			type = SYSTEM_OWNERSHIP_LOST
+			localization = SYSTEM_OWNERSHIP_LOST_MESSAGE
+			days = 10
+			target = this
+			variable = {
+				type = name
+				localization = SYSTEM_LOST
+				scope = this
+			}
+			variable = {
+				type = name
+				localization = ATTACKER
+				scope = from
+			}
+		}
+	}
+}
+
+# A fleet has entered a system | See also: on_fleet_auto_move_arrival
+# Scope = Fleet
+# From = System
+fleet_event = {
+	id = expanded_notifs.4
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		# If country has not yet encountered the drake
+		this.owner = { NOT = { has_country_flag = dragon_encounter } }
+		this.owner = { is_ai = no }
+		from = { has_star_flag = guardians_dragon_system }
+	}
+
+	immediate = {
+		create_message = {
+			type = EHTER_DRAKE_ENCOUNTERED
+			localization = ETHER_DRAKE_ENCOUNTERED_MESSAGE
+			days = 30
+			target = this
+			variable = {
+				type = name
+				localization = EHTER_DRAKE_ENCOUNTER_FLEET
+				scope = this
+			}
+			variable = {
+				type = name
+				localization = ETHER_DRAKE_ENCOUNTER_SYSTEM
+				scope = from
+			}
+		}
+
+		if = {
+			limit = {
+				this.owner = { NOT = { has_country_flag = dragon_encounter } }
+			}
+			
+			this.owner = { set_country_flag = dragon_encounter }
+		}
+	}
+}

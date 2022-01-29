@@ -1,0 +1,23 @@
+# STATION UNDER ATTACK
+spriteTypes = {
+    spriteType = {
+        name = "GFX_station_under_attack"
+        texturefile = "gfx/interface/icons/message/message_station_under_attack.dds"
+    }
+}
+
+# SYSTEM LOST
+spriteTypes = {
+    spriteType = {
+        name = "GFX_system_lost"
+        texturefile = "gfx/interface/icons/message/message_system_lost.dds"
+    }
+}
+
+# EHTER DRAKE SIGHTED
+spriteTypes = {
+    spriteType = {
+        name = "GFX_ether_drake_encountered"
+        texturefile = "gfx/interface/icons/message/message_ehter_drake_sighted.dds"
+    }
+}
